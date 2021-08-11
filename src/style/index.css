@@ -1,0 +1,22 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin:50px;
+  background-color: #008000;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',monospace;
+}
+header, .main{display: flex;justify-content: space-between;margin-bottom: 50px;}
+header div{height: 172px;  width: 122px;border-radius: 7px;}
+#sharedCards{margin-right: 10.2%; background:url(https://i.hizliresim.com/qv20z77.jpg);background-position: center;background-size: contain;border: 1px solid;}
+.completed {background:url(https://i.hizliresim.com/qv20z77.jpg);background-position: center;background-size: contain;}
+.empty{border:1px solid #a3a3a3;}
+.card img{border-radius: 7px; border: 1px solid; width: 122px; height: 172px;}
+.card:not(:first-child){ margin-top:-140px}
+
