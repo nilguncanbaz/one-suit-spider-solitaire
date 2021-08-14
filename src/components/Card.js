@@ -17,18 +17,13 @@ const cardImages = {
 }
 
 class Card extends Component {
-    drag(ev) {
-
-        ev.dataTransfer.setData("Text", ev.target.id);
-
-    }
+ 
     render() {
         const { card, column, row } = this.props;
         return (
-            <div className="card" id= {column + "-"+row} draggable="true" onDrag={this.drag}>
-                <img src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/qv20z77.jpg"}/>
             
-            </div>
+            <img src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/qv20z77.jpg"}/>
+            
         );
     }
 }

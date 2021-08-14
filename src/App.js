@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,useRef } from 'react';
 import arrayShuffle from 'array-shuffle';
 import Card from './components/Card';
 
@@ -19,6 +19,7 @@ class App extends Component {
       9:[]
     }
   }
+  dragItem;
   constructor(){
     super();
     const shuffledCards = this.getShuffledCards();
@@ -27,8 +28,9 @@ class App extends Component {
       board: board,
       cards: shuffledCards
     });
+    this.dragItem=React.createRef();
   }
-
+  // arrayShuffle method used to mix incoming values ​​in tempCards array
   getShuffledCards(){
     const tempCards =[] ;
     for (let i = 0; i < 104; i++) {
@@ -49,16 +51,27 @@ class App extends Component {
     return tempBoard;
   }
 
-  allowDrop(ev) {
-    ev.preventDefault();
+  //Drop and Drag Methods
+  drop(e) {
+    e.preventDefault();
+    const card_id= e.dataTransfer.getData('card_id');
+    const card = document.getElementById(card_id);
+    card.style.display='block';
+    e.target.appendChild(card); 
   }
-  
-  drop(ev) {
-    var text = ev.dataTransfer.getData("Text");
-    var row = ev.dataTransfer.getData("row");
-    console.log(text, row)
-    //ev.target.appendChild(document.getElementById(data));
-    ev.preventDefault();
+  dragOver(e) {
+    e.preventDefault();
+  }
+
+  dragStart(e,params){
+    
+    this.dragItem.current =  params;
+    const target =e.target;
+    e.dataTransfer.setData('card_id',target.id);
+    //console.log(params);
+    setTimeout(()=>{
+      target.style.display='none';
+    }, 0);
   }
 
   render() {
@@ -66,23 +79,38 @@ class App extends Component {
         <div className="App">
           <header>
             <div id="sharedCards" className="empty"></div>
-          
+            
             {Array(8).fill(null).map((e,index) => <div key ={index} className={this.state.completedCardDeck > index ? 'completed': 'empty'} ></div>)}
-
 
           </header>
           
           <div className="main">
-            {Object.entries(this.state.board).map(([columnIndex, cards]) => {
-              return (
-                <div className="column" onDrop={this.drop} onDragOver={this.allowDrop}>
-                    {cards.map((card, row) => <Card card={card} column={columnIndex} row={row} />)}
-                </div>);
-            })}
-          </div>
-          
+            {
+              Object.entries(this.state.board).map(([columnIndex, cards]) => {
+                return (
+                  <div 
+                    onDrop={this.drop}
+                    onDragOver={this.dragOver}
+                    className="column">
+                      {cards.map((card, row) => {
+                        return (
+                          <div 
+                            id= {columnIndex + "-" + row} 
+                            className="card" 
+                            draggable 
+                            onDragStart={(e) => this.dragStart(e, {columnIndex,row})}
+                            onDragOver={this.dragOver} 
+                          >
+                            <Card card={card} column={columnIndex} row={row} />
+                          </div>
+                        )
+                      })}
+                  </div>
+                );
+              })
+            }
         </div>
-          
+      </div>
       );
   }
 }

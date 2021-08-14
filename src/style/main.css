@@ -17,6 +17,7 @@ header div{height: 172px;  width: 122px;border-radius: 7px;}
 #sharedCards{margin-right: 10.2%; background:url(https://i.hizliresim.com/qv20z77.jpg);background-position: center;background-size: contain;border: 1px solid;}
 .completed {background:url(https://i.hizliresim.com/qv20z77.jpg);background-position: center;background-size: contain;}
 .empty{border:1px solid #a3a3a3;}
-.card img{border-radius: 7px; border: 1px solid; width: 122px; height: 172px;}
+.card{cursor: move}
+.card img{border-radius: 7px; border: 1px solid; width: 122px; height: 172px; pointer-events:none}
 .card:not(:first-child){ margin-top:-140px}
 
