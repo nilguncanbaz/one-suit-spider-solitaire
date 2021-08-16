@@ -1,86 +1,146 @@
-import React, { Component,useRef } from 'react';
-import arrayShuffle from 'array-shuffle';
+import React, { Component } from 'react';
+import arrayShuffle from 'lodash.shuffle';
+import cloneDeep from 'lodash.clonedeep';
 import Card from './components/Card';
+import { TEMP_BOARD } from './constants'
 
 class App extends Component {
-  state = {
-    completedCardDeck: 1,
-    cards : [],
-    board : {
-      0:[],
-      1:[],
-      2:[],
-      3:[],
-      4:[],
-      5:[],
-      6:[],
-      7:[],
-      8:[],
-      9:[]
-    }
-  }
   dragItem;
   constructor(){
     super();
     const shuffledCards = this.getShuffledCards();
     const board = this.createBoard(shuffledCards);
-    this.setState({
+
+    this.state = {
       board: board,
-      cards: shuffledCards
-    });
-    this.dragItem=React.createRef();
+      cards: shuffledCards,
+      dragging: false,
+      completedCardDeck: 1
+    };
+
+    this.enteredColumn = React.createRef();
   }
+
+  componentDidUpdate() {
+    console.log()
+  }
+
   // arrayShuffle method used to mix incoming values ​​in tempCards array
   getShuffledCards(){
-    const tempCards =[] ;
+    const tempCards = [];
     for (let i = 0; i < 104; i++) {
-      tempCards.push({ code: i % 13, isOpen: false });
+      tempCards.push({ code: i % 13, isOpen: true });
     }
     return arrayShuffle(tempCards);
   }
 
   createBoard(cards){
-    const tempBoard = this.state.board;
+    const tempBoard = cloneDeep(TEMP_BOARD);
     for (let i = 0; i < 54; i++) {
       const tempCard = cards.pop();
-      if (i > 43){
-        tempCard.isOpen = true;
+      if (i <= 43){
+        tempCard.isOpen = false;
       }
       tempBoard[i % 10].push(tempCard) ;
     }
     return tempBoard;
   }
 
-  //Drop and Drag Methods
-  drop(e) {
-    e.preventDefault();
-    const card_id= e.dataTransfer.getData('card_id');
-    const card = document.getElementById(card_id);
-    card.style.display='block';
-    e.target.appendChild(card); 
-  }
-  dragOver(e) {
-    e.preventDefault();
+  dealCard(){
+    
+    if (this.state.cards.length > 0) {
+      const tempCards = cloneDeep(this.state.cards);
+      const tempBoard = cloneDeep(this.state.board);
+
+      const hasEmptyColumn = Object.values(tempBoard).some(tempColumn => tempColumn.length === 0);
+      if (!hasEmptyColumn) {
+        for (let i = 0; i < 10; i++){
+          tempBoard[i].push(tempCards.pop());
+        }
+  
+        this.setState({
+          cards: tempCards,
+          board: tempBoard
+        });
+        return;
+      }else {
+        alert("kart dağıtılabilmesi için her sutunda en az bir kart olmalı");
+        return;
+      }
+    }
+
+    alert('kart kalmadı');
   }
 
+  //Drop and Drag Methods
+
   dragStart(e,params){
+    const card = this.state.board[params.columnIndex][params.rowIndex];
+    if (card && card.isOpen) {
+      this.setState({ dragging: true });
+
+      return;
+    } 
+
+
+    e.preventDefault(); // hareket etmeyi engeller
     
-    this.dragItem.current =  params;
-    const target =e.target;
-    e.dataTransfer.setData('card_id',target.id);
-    //console.log(params);
-    setTimeout(()=>{
-      target.style.display='none';
-    }, 0);
+  }
+
+  dragEnd(e, params){
+    if (params.columnIndex !== this.enteredColumn) {
+      const tempBoard = cloneDeep(this.state.board);
+
+      const movedColumn = tempBoard[params.columnIndex];
+      const movedCards = movedColumn.splice(params.rowIndex, tempBoard[params.columnIndex].length - params.rowIndex);
+      const movedCardsFirstCard = movedCards[0];
+
+      const enteredColumn = tempBoard[this.enteredColumn];
+      const enteredColumnLength = tempBoard[this.enteredColumn].length;
+      const enteredColumnLastCard = enteredColumn[enteredColumnLength - 1];
+      
+      if (enteredColumnLastCard === undefined || enteredColumnLastCard.code + 1 === movedCardsFirstCard.code){
+        enteredColumn.push(...movedCards);
+
+        // son kartı aç (açıksa değişmiyor)
+        if (movedColumn[movedColumn.length - 1]) {
+          movedColumn[movedColumn.length - 1].isOpen = true;
+        }
+
+        this.setState({ board: tempBoard });
+        return;
+      } 
+    }
+
+    console.log('taşınamaz');
+    //  aynı sütuna tekrar taşınamaz
+  }
+
+  dragEnter(e, params) {
+    this.enteredColumn = params.columnIndex;
+  }
+
+  getCardClassName() {
+    return "card";
   }
 
   render() {
       return (
-        <div className="App">
+        <div className="app">
           <header>
-            <div id="sharedCards" className="empty"></div>
+            <div className="deal-card">
+              <button onClick={() => this.dealCard()}>
+                <span>{this.state.cards.length / 10}</span>
+              </button>
             
-            {Array(8).fill(null).map((e,index) => <div key ={index} className={this.state.completedCardDeck > index ? 'completed': 'empty'} ></div>)}
+            </div>
+            <div className="space" />
+
+            {Array(8).fill(null).map((e,index) => (
+              <div key ={index}>
+                <button className={this.state.completedCardDeck > index ? 'completed': 'empty'}/>
+              </div>
+            ))}
 
           </header>
           
@@ -89,19 +149,19 @@ class App extends Component {
               Object.entries(this.state.board).map(([columnIndex, cards]) => {
                 return (
                   <div 
-                    onDrop={this.drop}
-                    onDragOver={this.dragOver}
+                    key={`column-${columnIndex}`}
+                    onDragEnter={(e) => this.dragEnter(e, { columnIndex })}
                     className="column">
-                      {cards.map((card, row) => {
+                      {cards.map((card, rowIndex) => {
                         return (
                           <div 
-                            id= {columnIndex + "-" + row} 
+                            key={`card-${columnIndex}-${rowIndex}`}
                             className="card" 
                             draggable 
-                            onDragStart={(e) => this.dragStart(e, {columnIndex,row})}
-                            onDragOver={this.dragOver} 
+                            onDragStart={(e) => this.dragStart(e, { columnIndex, rowIndex })}
+                            onDragEnd={(e) => this.dragEnd(e, { columnIndex, rowIndex })}
                           >
-                            <Card card={card} column={columnIndex} row={row} />
+                            <Card card={card} />
                           </div>
                         )
                       })}

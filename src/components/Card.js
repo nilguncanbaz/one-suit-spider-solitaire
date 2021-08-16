@@ -19,7 +19,7 @@ const cardImages = {
 class Card extends Component {
  
     render() {
-        const { card, column, row } = this.props;
+        const { card } = this.props;
         return (
             
             <img src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/qv20z77.jpg"}/>
