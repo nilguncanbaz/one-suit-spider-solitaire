@@ -1,12 +1,6 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: #008000;
-}
+:root { --background-color:#008000;}
+
+body {margin: 0;background-color: var(--background-color);}
 
 .app { padding: 50px}
 
@@ -15,7 +9,7 @@ header, .main{display: flex; justify-content: space-between; margin-bottom: 50px
 
 header div { width: 114px; position: relative }
 header div span { position: absolute; right: 5px; bottom: 5px; width: 25px; height: 25px; text-align: center; color: #fff; line-height: 25px; background: #f00; border-radius: 100% }
-header div button{height: 172px; width: 114px; border-radius: 6px; flex: 1; background: #008000; border: 1px solid #cacaca}
+header div button{height: 172px; width: 114px; border-radius: 6px; flex: 1; background: var(--background-color); border: 1px solid #cacaca}
 
 header .deal-card button, header div .completed {background:url(https://i.hizliresim.com/qv20z77.jpg);background-position: center;background-size: contain;}
 header .deal-card button {cursor: pointer}
@@ -23,4 +17,3 @@ header .deal-card button {cursor: pointer}
 .card{cursor: move}
 .card img{border-radius: 6px; border: 1px solid; width: 114px; height: 172px; pointer-events:none}
 .card:not(:first-child){ margin-top:-140px}
-

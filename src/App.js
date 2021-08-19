@@ -5,7 +5,6 @@ import Card from './components/Card';
 import { TEMP_BOARD } from './constants'
 
 class App extends Component {
-  dragItem;
   constructor(){
     super();
     const shuffledCards = this.getShuffledCards();
@@ -17,8 +16,6 @@ class App extends Component {
       dragging: false,
       completedCardDeck: 1
     };
-
-    this.enteredColumn = React.createRef();
   }
 
   componentDidUpdate() {
@@ -38,14 +35,16 @@ class App extends Component {
     const tempBoard = cloneDeep(TEMP_BOARD);
     for (let i = 0; i < 54; i++) {
       const tempCard = cards.pop();
+      // Başlangıçta sadece son 10 kart açık görünmesi gerekiyor. 
       if (i <= 43){
         tempCard.isOpen = false;
       }
-      tempBoard[i % 10].push(tempCard) ;
+      tempBoard[i % 10].push(tempCard) ;//yalnızca 0-9 sütunlara kart eklenmesi gerekiyor bunu için mod alınıyor.
     }
     return tempBoard;
   }
 
+  //yeni deste dağıtılıyor.
   dealCard(){
     
     if (this.state.cards.length > 0) {
@@ -54,6 +53,7 @@ class App extends Component {
 
       const hasEmptyColumn = Object.values(tempBoard).some(tempColumn => tempColumn.length === 0);
       if (!hasEmptyColumn) {
+        //dizilen kartlar desteden çıkarılıyor.
         for (let i = 0; i < 10; i++){
           tempBoard[i].push(tempCards.pop());
         }
@@ -64,12 +64,12 @@ class App extends Component {
         });
         return;
       }else {
-        alert("kart dağıtılabilmesi için her sutunda en az bir kart olmalı");
+        alert("Kart dağıtılabilmesi için her sütunda en az bir kart olmalı !");
         return;
       }
     }
 
-    alert('kart kalmadı');
+    alert('Dağıtılacak kart kalmadı !');
   }
 
   //Drop and Drag Methods
@@ -112,8 +112,7 @@ class App extends Component {
       } 
     }
 
-    console.log('taşınamaz');
-    //  aynı sütuna tekrar taşınamaz
+    console.log('Kart taşınamaz !');
   }
 
   dragEnter(e, params) {
