@@ -13,7 +13,7 @@ const cardImages = {
     9: 'https://i.hizliresim.com/o44lne0.png',
     10: 'https://i.hizliresim.com/n2f1982.png',
     11: 'https://i.hizliresim.com/idra67d.png',
-    12: 'https://i.hizliresim.com/ebat37n.png'
+    12: 'https://i.hizliresim.com/6i3pd16.png'
 }
 
 class Card extends Component {
