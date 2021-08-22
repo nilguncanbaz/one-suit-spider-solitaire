@@ -22,3 +22,6 @@ header .deal-card button {cursor: pointer}
 .card img{border-radius: 8px;width: 114px; height: 172px; pointer-events:none}
 .card:not(:first-child){ margin-top:-140px}
 .swal2-container.swal2-center.swal2-backdrop-show{background-size: contain !important;}
+
+footer{position: fixed; bottom: 10px; right: 10px;}
+footer button{background-color: rgb(255 255 255 / 50%);color: #151a16; font-weight: 800; border-radius: 8px; height: 35px; border: none;cursor: pointer}

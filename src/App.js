@@ -183,6 +183,11 @@ class App extends Component {
               })
             }
         </div>
+        <footer>
+          <button onClick={() => window.location.reload(false)}>
+              <span> <img alt="Yeni Oyun" src="https://i.hizliresim.com/jmmevls.png" width="10"/> YENİ OYUN</span>
+            </button>
+        </footer>
       </div>
       );
   }
