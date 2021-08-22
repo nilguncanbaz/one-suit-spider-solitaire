@@ -22,7 +22,7 @@ class Card extends Component {
         const { card } = this.props;
         return (
             
-            <img src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/qv20z77.jpg"}/>
+            <img alt={(card.isOpen) ? "Card-" + card.code : "Close Card"} src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/qv20z77.jpg"}/>
             
         );
     }

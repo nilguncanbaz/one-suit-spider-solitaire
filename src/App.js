@@ -1,52 +1,73 @@
 import React, { Component } from 'react';
-import arrayShuffle from 'lodash.shuffle';
 import cloneDeep from 'lodash.clonedeep';
 import Card from './components/Card';
-import { TEMP_BOARD } from './constants'
+import { openLastCard, getCards, isDraggable, isDroppable, createGame, isSorted, removeCards } from './helpers';
+import { toast } from 'react-toastify';
+import Swal from 'sweetalert2';
 
 class App extends Component {
   constructor(){
     super();
-    const shuffledCards = this.getShuffledCards();
-    const board = this.createBoard(shuffledCards);
+    const { board, cards } = createGame();
 
+    this.enteredColumnIndex = undefined;
     this.state = {
       board: board,
-      cards: shuffledCards,
+      cards: cards,
       dragging: false,
-      completedCardDeck: 1
+      completedCardDeck: 0
     };
   }
 
-  componentDidUpdate() {
-    console.log()
-  }
+  componentDidUpdate(){
+    if (this.state.completedCardDeck === 8){
+      Swal.fire({
+        title: 'OYUNU KAZANDIN !',
+        icon: 'success',
+        width: 500,
+        padding: '3em',
+        backdrop: `
+          rgba(0,0,123,0.4)
+          url("https://i.hizliresim.com/smvm55n.gif")
+          top
+          no-repeat
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Yeniden Oyna',
+        cancelButtonText: 'Bitir'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload(false)
+        }
+      });
 
-  // arrayShuffle method used to mix incoming values ​​in tempCards array
-  getShuffledCards(){
-    const tempCards = [];
-    for (let i = 0; i < 104; i++) {
-      tempCards.push({ code: i % 13, isOpen: true });
+      return;
     }
-    return arrayShuffle(tempCards);
-  }
 
-  createBoard(cards){
-    const tempBoard = cloneDeep(TEMP_BOARD);
-    for (let i = 0; i < 54; i++) {
-      const tempCard = cards.pop();
-      // Başlangıçta sadece son 10 kart açık görünmesi gerekiyor. 
-      if (i <= 43){
-        tempCard.isOpen = false;
+    const tempBoard = cloneDeep(this.state.board);
+    let completedCardDeck = 0;
+
+    for (let columnIndex = 0; columnIndex < 10; columnIndex++){
+      const lastDeck = getCards(tempBoard[columnIndex], -13);
+      if (lastDeck.length === 13 && isSorted(lastDeck)) {
+        removeCards(tempBoard[columnIndex], -13);
+        openLastCard(tempBoard[columnIndex]);
+        completedCardDeck += 1;
       }
-      tempBoard[i % 10].push(tempCard) ;//yalnızca 0-9 sütunlara kart eklenmesi gerekiyor bunu için mod alınıyor.
     }
-    return tempBoard;
+
+    if (completedCardDeck > 0) {
+      this.setState((tempState) => {
+        return {
+          board: tempBoard, 
+          completedCardDeck: tempState.completedCardDeck + completedCardDeck
+        }
+      })
+    }
   }
 
   //yeni deste dağıtılıyor.
   dealCard(){
-    
     if (this.state.cards.length > 0) {
       const tempCards = cloneDeep(this.state.cards);
       const tempBoard = cloneDeep(this.state.board);
@@ -64,59 +85,52 @@ class App extends Component {
         });
         return;
       }else {
-        alert("Kart dağıtılabilmesi için her sütunda en az bir kart olmalı !");
+        toast("Kart dağıtılabilmesi için her sütunda en az bir kart olmalı !");
         return;
       }
     }
 
-    alert('Dağıtılacak kart kalmadı !');
+    toast('Dağıtılacak kart kalmadı!');
   }
 
   //Drop and Drag Methods
+  dragStart(e, params){
+    const tempBoard = cloneDeep(this.state.board);
+    const movedCards = getCards(tempBoard[params.columnIndex], params.rowIndex);
 
-  dragStart(e,params){
-    const card = this.state.board[params.columnIndex][params.rowIndex];
-    if (card && card.isOpen) {
-      this.setState({ dragging: true });
+    console.log(params, tempBoard[params.columnIndex], movedCards);
 
-      return;
-    } 
+    if (!isDraggable(movedCards)) {
+      return e.preventDefault();
+    }
 
-
-    e.preventDefault(); // hareket etmeyi engeller
-    
+    this.setState({ dragging: true });
   }
 
   dragEnd(e, params){
-    if (params.columnIndex !== this.enteredColumn) {
+    if (params.columnIndex !== this.enteredColumnIndex) {
       const tempBoard = cloneDeep(this.state.board);
 
       const movedColumn = tempBoard[params.columnIndex];
-      const movedCards = movedColumn.splice(params.rowIndex, tempBoard[params.columnIndex].length - params.rowIndex);
-      const movedCardsFirstCard = movedCards[0];
+      const movedCards = removeCards(movedColumn, params.rowIndex);
 
-      const enteredColumn = tempBoard[this.enteredColumn];
-      const enteredColumnLength = tempBoard[this.enteredColumn].length;
-      const enteredColumnLastCard = enteredColumn[enteredColumnLength - 1];
+      const enteredCards = tempBoard[this.enteredColumnIndex];
       
-      if (enteredColumnLastCard === undefined || enteredColumnLastCard.code + 1 === movedCardsFirstCard.code){
-        enteredColumn.push(...movedCards);
+      if (isDroppable(movedCards, enteredCards)){
+        enteredCards.push(...movedCards);
 
-        // son kartı aç (açıksa değişmiyor)
-        if (movedColumn[movedColumn.length - 1]) {
-          movedColumn[movedColumn.length - 1].isOpen = true;
-        }
+        openLastCard(movedColumn);
 
         this.setState({ board: tempBoard });
         return;
       } 
     }
 
-    console.log('Kart taşınamaz !');
+    toast('Kart taşınamaz!');
   }
 
   dragEnter(e, params) {
-    this.enteredColumn = params.columnIndex;
+    this.enteredColumnIndex = params.columnIndex;
   }
 
   getCardClassName() {
