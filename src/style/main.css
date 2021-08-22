@@ -1,4 +1,4 @@
-:root { --background-image:url(https://i.hizliresim.com/m4wdnou.jpg); --card-image :url(https://i.hizliresim.com/qv20z77.jpg) }
+:root { --background-image:url(https://i.hizliresim.com/m4wdnou.jpg); --card-image :url(https://i.hizliresim.com/rzirwrm.png) }
 
 body {margin: 0;background: var(--background-image);background-size: cover}
 
@@ -9,12 +9,16 @@ header, .main{display: flex; justify-content: space-between; margin-bottom: 50px
 
 header div { width: 114px; position: relative }
 header div span { position: absolute; right: 5px; bottom: 5px; width: 25px; height: 25px; text-align: center; color: #fff; line-height: 25px; background: #f00; border-radius: 100% }
-header div button{height: 172px; width: 114px; border-radius: 6px; flex: 1; background:transparent; border: 3px solid #cacaca}
+header div button{height: 172px; width: 114px; border-radius: 8px; flex: 1; background:transparent; border: 3px solid #cacaca}
 
-header .deal-card button, header div .completed {background:var( --card-image);background-position: center;background-size: contain;}
+header div.refresh-button {width: auto;}
+header div.refresh-button button{height: 15px; width: 15px;     }
+
+
+header .deal-card button, header div .completed {background:var( --card-image);background-position: center;}
 header .deal-card button {cursor: pointer}
 
 .card{cursor: move}
-.card img{border-radius: 6px; border: 1px solid; width: 114px; height: 172px; pointer-events:none}
+.card img{border-radius: 8px;width: 114px; height: 172px; pointer-events:none}
 .card:not(:first-child){ margin-top:-140px}
 .swal2-container.swal2-center.swal2-backdrop-show{background-size: contain !important;}

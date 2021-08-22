@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
 
 const cardImages = {
-    0: 'https://i.hizliresim.com/haln85v.png',
-    1: 'https://i.hizliresim.com/t6gtqfp.png',
-    2: 'https://i.hizliresim.com/erjcp7n.png',
-    3: 'https://i.hizliresim.com/pg3qast.png',
-    4: 'https://i.hizliresim.com/5wkxhqu.png',
-    5: 'https://i.hizliresim.com/j79pm8v.png',
-    6: 'https://i.hizliresim.com/96hy7vy.png',
-    7: 'https://i.hizliresim.com/c0wr8ph.png',
-    8: 'https://i.hizliresim.com/e4m5hhu.png',
-    9: 'https://i.hizliresim.com/546obcn.png',
-    10: 'https://i.hizliresim.com/as6z6gl.png',
-    11: 'https://i.hizliresim.com/kut1w3f.png',
-    12: 'https://i.hizliresim.com/2jg710n.png'
+    0: 'https://i.hizliresim.com/tjqmati.png',
+    1: 'https://i.hizliresim.com/leru419.png',
+    2: 'https://i.hizliresim.com/3hmdrix.png',
+    3: 'https://i.hizliresim.com/rht4s9v.png',
+    4: 'https://i.hizliresim.com/q4dabzs.png',
+    5: 'https://i.hizliresim.com/h9ko537.png',
+    6: 'https://i.hizliresim.com/89ou2n1.png',
+    7: 'https://i.hizliresim.com/ks6hes0.png',
+    8: 'https://i.hizliresim.com/t6mpn3z.png',
+    9: 'https://i.hizliresim.com/o44lne0.png',
+    10: 'https://i.hizliresim.com/n2f1982.png',
+    11: 'https://i.hizliresim.com/idra67d.png',
+    12: 'https://i.hizliresim.com/ebat37n.png'
 }
 
 class Card extends Component {
@@ -22,7 +22,7 @@ class Card extends Component {
         const { card } = this.props;
         return (
             
-            <img alt={(card.isOpen) ? "Card-" + card.code : "Close Card"} src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/qv20z77.jpg"}/>
+            <img alt={(card.isOpen) ? "Card-" + card.code : "Close Card"} src={(card.isOpen) ? cardImages[card.code] : "https://i.hizliresim.com/rzirwrm.png"}/>
             
         );
     }
