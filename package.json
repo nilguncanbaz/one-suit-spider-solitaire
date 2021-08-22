@@ -1,5 +1,5 @@
 {
-  "name": "final-project",
+  "name": "one-suit-spider-solitaire",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,8 +22,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest",
+    "test:coverage":"jest --coverage",
+    "test:watch":"jest --watch",
     "eject": "react-scripts eject"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
   },
   "eslintConfig": {
     "extends": [
@@ -42,5 +49,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-jest": "^27.0.6"
   }
 }
