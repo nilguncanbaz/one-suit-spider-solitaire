@@ -11,7 +11,7 @@ Reversed One Suit Spider Solitaire | <a href="https://one-suit-spider-solitaire.
 
 # Unit Tests Coverage 
 
-<img src='#' alt='Unit Tests Covreage'/>
+<img src='https://i.hizliresim.com/tdc48be.png' alt='Unit Tests Covreage'/>
 
 # Lighthouse Report 
 

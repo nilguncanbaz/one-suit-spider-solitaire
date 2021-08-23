@@ -4,6 +4,7 @@ import Card from './components/Card';
 import { openLastCard, getCards, isDraggable, isDroppable, createGame, isSorted, removeCards } from './helpers';
 import { toast } from 'react-toastify';
 import Swal from 'sweetalert2';
+import { COMPLETED_CARDS_DECK } from './constants'
 
 class App extends Component {
   constructor(){
@@ -19,7 +20,7 @@ class App extends Component {
   }
 
   componentDidUpdate(){
-    if (this.state.completedCardDeck === 8){
+    if (this.state.completedCardDeck === COMPLETED_CARDS_DECK){
       Swal.fire({
         title: 'OYUNU KAZANDIN !',
         icon: 'success',
@@ -140,7 +141,7 @@ class App extends Component {
             </div>
             <div className="space" />
 
-            {Array(8).fill(null).map((e,index) => (
+            {Array(COMPLETED_CARDS_DECK).fill(null).map((e,index) => (
               <div key ={index}>
                 <button className={this.state.completedCardDeck > index ? 'completed': 'empty'}/>
               </div>

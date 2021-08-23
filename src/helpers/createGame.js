@@ -1,10 +1,10 @@
 import arrayShuffle from 'lodash.shuffle';
 import cloneDeep from 'lodash.clonedeep';
-import { TEMP_BOARD } from '../constants'
+import { TEMP_BOARD,TOTAL_CARDS,DEAL_CARDS } from '../constants'
 
 export function createGame(){
     const cardsForBoard = createShuffledCards();
-    const cardsForADeal = cardsForBoard.splice(54);
+    const cardsForADeal = cardsForBoard.splice(DEAL_CARDS);
 
     const board = createBoard(cardsForBoard);
 
@@ -14,7 +14,7 @@ export function createGame(){
     }
 }
 
-function createShuffledCards(length = 104){
+function createShuffledCards(length = TOTAL_CARDS){
     const cards = [];
 
     for (let i = 0; i < length; i++) {
