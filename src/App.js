@@ -14,7 +14,6 @@ class App extends Component {
     this.state = {
       board: board,
       cards: cards,
-      dragging: false,
       completedCardDeck: 0
     };
   }
@@ -98,13 +97,9 @@ class App extends Component {
     const tempBoard = cloneDeep(this.state.board);
     const movedCards = getCards(tempBoard[params.columnIndex], params.rowIndex);
 
-    console.log(params, tempBoard[params.columnIndex], movedCards);
-
     if (!isDraggable(movedCards)) {
       return e.preventDefault();
     }
-
-    this.setState({ dragging: true });
   }
 
   dragEnd(e, params){
@@ -131,10 +126,6 @@ class App extends Component {
 
   dragEnter(e, params) {
     this.enteredColumnIndex = params.columnIndex;
-  }
-
-  getCardClassName() {
-    return "card";
   }
 
   render() {
