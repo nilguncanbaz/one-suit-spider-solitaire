@@ -23,8 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "jest",
-    "test:coverage":"jest --coverage",
-    "test:watch":"jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
     "eject": "react-scripts eject"
   },
   "jest": {
@@ -51,6 +51,6 @@
     ]
   },
   "devDependencies": {
-    "babel-jest": "^27.0.6"
+    "babel-jest": "^26.6.0"
   }
 }
