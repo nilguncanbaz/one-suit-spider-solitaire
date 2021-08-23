@@ -18,8 +18,8 @@ Reversed One Suit Spider Solitaire | <a href="https://one-suit-spider-solitaire.
 <a href ="https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fone-suit-spider-solitaire.herokuapp.com%2F&tab=desktop">Lighthouse Desktop Report </a><br/>
 <img src="https://i.hizliresim.com/7je3u7x.png" alt="Lighthouse Desktop Report"/>
 
-<a href ="https://developers.google.com/speed/pagespeed/insights/?url=http%3A%2F%2Fone-suit-spider-solitaire.herokuapp.com%2F&tab=mobile">Lighthouse Mobil Report </a><br/>
-<img src="https://i.hizliresim.com/pkuyu9s.png" alt="Lighthouse Mobil Report"/>
+# Heroku Deployment - Activity
+<img src="https://i.hizliresim.com/385udy2.png" alt="Heroku Activity"/>
 
 # Resources
 
